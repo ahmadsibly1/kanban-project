@@ -18,4 +18,15 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/task', [TaskController::class, 'index'])->name('tasks.index');
+
+// Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+// Route::get('/tasks/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+
+// mengelompokan route task agar lebih efisien
+Route::prefix('tasks')
+    ->name('tasks.')
+    ->controller(TaskController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('{id}/edit', 'edit')->name('edit');
+    });

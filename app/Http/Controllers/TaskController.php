@@ -41,7 +41,25 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // code untuk validasi
+        $request->validate(
+            [
+                'name' => 'required',
+                'due_date' => 'required',
+                'status' => 'required',
+            ],
+            $request->all()
+        );
+
+        // proses memasukan data ke database
+        Task::create([
+            'name' => $request->name,
+            'detail' => $request->detail,
+            'due_date' => $request->due_date,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -60,7 +78,6 @@ class TaskController extends Controller
         $pageTitle = 'Edit Task';
         $task = Task::find($id);
 
-
         return view('tasks.edit', [
             'pageTitle' => $pageTitle,
             'task' => $task
@@ -72,14 +89,36 @@ class TaskController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $task = Task::find($id);
+        $task->update([
+            'name' => $request->name,
+            'detail' => $request->detail,
+            'due_date' => $request->due_date,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('tasks.index');
     }
 
+    // buatan sendiri
+    public function delete(string $id)
+    {
+        $pageTitle = 'Delete Task';
+        $task = Task::find($id);
+
+        return view('tasks.delete', [
+            'pageTitle' => $pageTitle,
+            'task' => $task,
+        ]);
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $task = Task::find($id);
+        $task->delete();
+
+        return redirect()->route('tasks.index');
     }
 }

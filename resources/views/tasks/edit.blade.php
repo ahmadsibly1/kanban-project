@@ -5,25 +5,27 @@
 @section('main')
     <div class="form-container">
         <h1 class="form-title">{{ $pageTitle }}</h1>
-        <form class="form">
+        <form class="form" method="POST" action="{{ route('tasks.update', ['id' => $task->id]) }}">
+            @method('PUT')
+            @csrf
             <div class="form-item">
                 <label>Name:</label>
-                <input class="form-input" type="text" value="{{ $task->name }}">
+                <input class="form-input" type="text" name="name" value="{{ old('name', $task->name) }}">
             </div>
 
             <div class="form-item">
                 <label>Detail:</label>
-                <textarea class="form-text-area">{{ $task->detail }}</textarea>
+                <textarea class="form-text-area" name="detail">{{ old('detail', $task->detail) }}</textarea>
             </div>
 
             <div class="form-item">
                 <label>Due Date:</label>
-                <input class="form-input" type="date" value="{{ $task->due_date }}">
+                <input class="form-input" type="date" name="due_date" value="{{ old('due_date', $task->due_date) }}">
             </div>
 
             <div class="form-item">
                 <label>Progress:</label>
-                <select class="form-input">
+                <select class="form-input" name="status">
                     <option @if ($task->status == 'not_started') selected @endif value="not_started">
                         Not Started
                     </option>
@@ -38,7 +40,7 @@
                     </option>
                 </select>
             </div>
-            <button type="button" class="form-button">Submit</button>
+            <button type="submit" class="form-button">Submit</button>
         </form>
     </div>
 @endsection

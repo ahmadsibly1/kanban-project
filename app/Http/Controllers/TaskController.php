@@ -41,7 +41,25 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // code untuk validasi
+        $request->validate(
+            [
+                'name' => 'required',
+                'due_date' => 'required',
+                'status' => 'required',
+            ],
+            $request->all()
+        );
+
+        // proses memasukan data ke database
+        Task::create([
+            'name' => $request->name,
+            'detail' => $request->detail,
+            'due_date' => $request->due_date,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('tasks.index');
     }
 
     /**

@@ -78,7 +78,6 @@ class TaskController extends Controller
         $pageTitle = 'Edit Task';
         $task = Task::find($id);
 
-
         return view('tasks.edit', [
             'pageTitle' => $pageTitle,
             'task' => $task
@@ -90,7 +89,15 @@ class TaskController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $task = Task::find($id);
+        $task->update([
+            'name' => $request->name,
+            'detail' => $request->detail,
+            'due_date' => $request->due_date,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('tasks.index');
     }
 
     /**

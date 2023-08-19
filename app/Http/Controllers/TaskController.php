@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Termwind\Components\Dd;
 
 class TaskController extends Controller
 {
@@ -120,5 +121,26 @@ class TaskController extends Controller
         $task->delete();
 
         return redirect()->route('tasks.index');
+    }
+
+    // Task Progress
+    public function progress()
+    {
+        $title = 'Task Progress';
+
+        $tasks = Task::all();
+        $filteredTasks = $tasks->groupBy('status');
+
+        $tasks = [
+            'not_started' => $filteredTasks->get('not_started', []),
+            'in_progress' => $filteredTasks->get('in_progress', []),
+            'completed' => $filteredTasks->get('completed', []),
+            'in_review' => $filteredTasks->get('in_review', []),
+        ];
+        // dd($tasks);
+        return view('tasks.progress', [
+            'pageTitle' => $title,
+            'tasks' => $tasks,
+        ]);
     }
 }

@@ -33,4 +33,6 @@ Route::prefix('tasks')
         Route::put('{id}/update', 'update')->name('update');
         Route::get('create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
+        Route::get('{id}/delete', 'delete')->name('delete');
+        Route::delete('{id}/destroy', 'destroy')->name('destroy');
     });

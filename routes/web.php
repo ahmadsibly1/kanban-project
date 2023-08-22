@@ -38,4 +38,5 @@ Route::prefix('tasks')
 
         // Progress Page
         Route::get('progress', 'progress')->name('progress');
+        Route::patch('{id}/move', 'move')->name('move');
     });
